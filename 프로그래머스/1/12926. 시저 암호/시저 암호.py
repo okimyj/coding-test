@@ -1,6 +1,5 @@
 def solution(s, n):
-    answer = ''
-    def toCode(char, n) :
+    def toCode(char) :
         if char == ' ':
             return ord(char)
         code = ord(char) + n
@@ -8,8 +7,9 @@ def solution(s, n):
             code = (code-ord('a')) % 26 + ord('a')
         else :
             code = (code-ord('A')) % 26 + ord('A')
-
         return code
+    answer = ''
+    
     for char in s :
-        answer += chr(toCode(char, n));
+        answer += chr(toCode(char));
     return answer
