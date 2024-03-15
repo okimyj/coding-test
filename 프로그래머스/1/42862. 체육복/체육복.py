@@ -2,6 +2,10 @@ def solution(n, lost, reserve):
     # 가져온 애가 도난 당했을 수 있다. lost, reserve에 중복되는 값은 제거한다.
     filteredLost = list(filter(lambda x: x not in reserve, lost))
     filteredReserve = list(filter(lambda x: x not in lost, reserve))
+    ## lambda x: x not in reserve 
+    # -> def filterFunc(number) :
+    #       return number not in reserve
+    # -> reserve.filter((number)=>!reserve.find(number))
     
     def borrowUniform(number) :
         if number in filteredReserve :
