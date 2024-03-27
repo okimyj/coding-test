@@ -1,0 +1,1 @@
+print(len(list(filter(None, input().strip().split(' ')))))
