@@ -1,41 +1,41 @@
-# 단지 번호 붙이기
 import sys
-from collections import deque
+from collections import deque, defaultdict
 input = sys.stdin.readline
-inputMap = []
 mapSize = int(input())
-visited = [[0 for _ in range(mapSize)] for _ in range(mapSize)]
-areaNum = []
-for i in range(mapSize) :
-    inputMap.append(list(input().rstrip()))
-
+_map = [list(input().rstrip()) for x in range(mapSize)]
 def isInRange(r, c) :
-   return r >= 0 and r < mapSize and c >= 0 and c < mapSize
+    return r >= 0 and r < mapSize and c >= 0 and c < mapSize
+def canVisit(r, c) :
+    return isInRange(r, c) and _map[r][c] == '1' and not visited[r][c]
+
+visited = [[False for _ in range(mapSize)] for _ in range(mapSize)]
 
 dr = [0, 1, 0, -1]
 dc = [1, 0, -1, 0]
-def bfs(r, c):
-    areaNum[len(areaNum)-1] += 1
-    visited[r][c] = True
-    q = deque()
-    q.append((r, c))
+areaNum = []
+areaIdx = -1
+def bfs(r, c) :
+    q = deque([(r,c)])
+    visited[r][c] = areaNum
+
     while q :
         curR, curC = q.popleft()
         for i in range(4) :
             nextR = curR + dr[i]
             nextC = curC + dc[i]
-            if isInRange(nextR, nextC) and not visited[nextR][nextC] and inputMap[nextR][nextC] == '1' :
-                areaNum[len(areaNum) - 1] += 1
-                visited[nextR][nextC] = True
+            # r, c 가 범위 내에 있고, _map의 r, c의 값이 1이고 방문하지 않은 곳이라면 append.
+            if canVisit(nextR, nextC) :
                 q.append((nextR, nextC))
+                visited[nextR][nextC] = True
+                areaNum[areaIdx] += 1
 
-for i in range(mapSize) :
-    for j in range(mapSize):
-        if isInRange(i, j) and not visited[i][j] and inputMap[i][j] == '1':
-            areaNum.append(0)
-            bfs(i, j)
+for r in range(mapSize) :
+    for c in range(mapSize) :
+        if canVisit(r, c) :
+            areaNum.append(1)
+            areaIdx += 1
+            bfs(r, c)
 
-areaNum.sort()
 print(len(areaNum))
-for i in areaNum :
-    print(i)
+areaNum.sort()
+print(*areaNum, sep="\n")
