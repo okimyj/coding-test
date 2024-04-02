@@ -18,7 +18,7 @@ for r in range(len(_map)) :
 dists = []
 def calcDist(storeComb) :
     # 도시의 치킨 거리는 모든 집의 치킨거리의 합.
-    # storeComb에서 각 집의 치킨거리 최소 값
+    # storeComb에서 각 집의 치킨거리 최소 값을 합산 한 값을 반환하자.
     sumDist = 0
     for h in houseList :
         minDist = 9999999
@@ -31,6 +31,6 @@ def calcDist(storeComb) :
 for storeComb in itertools.combinations(storeList, M) :
     dists.append(calcDist(storeComb))
 
-
+# 거리 값 중 최소값 반환.
 print(min(dists))
 
