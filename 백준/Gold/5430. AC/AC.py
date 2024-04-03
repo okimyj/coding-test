@@ -18,14 +18,14 @@ def D(q, isPopLeft):
 
 # 첫 번째 입력 테스트 케이스 만큼 반복.
 for i in range(int(input())) :
-    # 연속으로 RR 두번 나오는건 어차피 제자리..
-    # operations = list(input().rstrip().replace('RR', ''))
     operations = list(input().rstrip())
-    input() # 입력 값 개수
+    # 입력 값 개수
+    input()
+    # 양옆 대괄호 자르기.
     strNumbers = input().rstrip()[1:-1]
-    # numbers = len(strNumbers) > 0 and list(map(int, strNumbers.split(','))) or []
+    # strNumbers 길이가 0 보다 크면 split, 아니면 빈 배열로 덱 생성.
     numbers = deque(len(strNumbers) > 0 and list(map(int, strNumbers.split(','))) or [])
-    isPass = len(operations) <= 0
+    isPass = False
     isPopLeft = True
     for op in operations :
         if op == 'R' :
@@ -40,6 +40,5 @@ for i in range(int(input())) :
         if not isPopLeft :
             numbers.reverse()
         print('[{}]'.format(','.join(str(v) for v in numbers)))
-        # print(','.join(numbers))
     else:
         print('error')
