@@ -17,20 +17,30 @@ countDict = defaultdict(int)
 for n in numbers :
     countDict[n] += 1
 
-checkStack = []
+checkQ = deque()
 for i in range(len(numbers)) :
-
-    while checkStack :
-        topIdx = checkStack[len(checkStack)-1]
-        n = numbers[topIdx]
+    while checkQ :
+        n = numbers[checkQ[0]]
         curN = numbers[i]
-        # checkStack 의 마지막에 있는 녀석의 갯수가 현재 i번째 녀석의 갯수 보다 큰지 체크.
         if countDict[n] < countDict[curN] :
-            result[topIdx] = curN
-            checkStack.pop()
+            result[checkQ[0]] = curN
+            checkQ.popleft()
         else :
             break
-    checkStack.append(i)
+    checkQ.appendleft(i)
+# checkStack = []
+# for i in range(len(numbers)) :
+#     while checkStack :
+#         topIdx = checkStack[len(checkStack)-1]
+#         n = numbers[topIdx]
+#         curN = numbers[i]
+#         # checkStack 의 마지막에 있는 녀석의 갯수가 현재 i번째 녀석의 갯수 보다 큰지 체크.
+#         if countDict[n] < countDict[curN] :
+#             result[topIdx] = curN
+#             checkStack.pop()
+#         else :
+#             break
+#     checkStack.append(i)
 
 # 시간초과
 # for i in range(len(numbers)) :
