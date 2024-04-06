@@ -1,41 +1,36 @@
+'''
+https://www.acmicpc.net/problem/2667
+단지 번호 붙이기 : BFS, DFS
+'''
 import sys
-from collections import deque, defaultdict
 input = sys.stdin.readline
-mapSize = int(input())
-_map = [list(input().rstrip()) for x in range(mapSize)]
-def isInRange(r, c) :
-    return r >= 0 and r < mapSize and c >= 0 and c < mapSize
-def canVisit(r, c) :
-    return isInRange(r, c) and _map[r][c] == '1' and not visited[r][c]
-
-visited = [[False for _ in range(mapSize)] for _ in range(mapSize)]
-
+N = int(input())
+_map = [list(input().rstrip()) for _ in range(N)]
+# print(_map)
 dr = [0, 1, 0, -1]
 dc = [1, 0, -1, 0]
-areaNum = []
-areaIdx = -1
-def bfs(r, c) :
-    q = deque([(r,c)])
-    visited[r][c] = areaNum
+areaList = []
+def isInRange(r, c) :
+    return r >= 0 and r < N and c >= 0 and c < N
+def dfs(r, c) :
 
-    while q :
-        curR, curC = q.popleft()
-        for i in range(4) :
-            nextR = curR + dr[i]
-            nextC = curC + dc[i]
-            # r, c 가 범위 내에 있고, _map의 r, c의 값이 1이고 방문하지 않은 곳이라면 append.
-            if canVisit(nextR, nextC) :
-                q.append((nextR, nextC))
-                visited[nextR][nextC] = True
-                areaNum[areaIdx] += 1
+    for i in range(4):
+        nextR = r + dr[i]
+        nextC = c + dc[i]
+        if isInRange(nextR, nextC) and _map[nextR][nextC] == '1' :
+            areaList[len(areaList)-1]+=1
+            _map[nextR][nextC] = '0'
+            dfs(nextR, nextC)
 
-for r in range(mapSize) :
-    for c in range(mapSize) :
-        if canVisit(r, c) :
-            areaNum.append(1)
-            areaIdx += 1
-            bfs(r, c)
 
-print(len(areaNum))
-areaNum.sort()
-print(*areaNum, sep="\n")
+for i in range(N) :
+    for j in range(N):
+        if _map[j][i] == '1' :
+            _map[j][i] = '0'
+            areaList.append(1)
+            dfs(j, i)
+
+areaList.sort()
+print(len(areaList))
+print(*areaList, sep='\n')
+
