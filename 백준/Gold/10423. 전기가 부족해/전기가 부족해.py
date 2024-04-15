@@ -1,8 +1,9 @@
 '''
 https://www.acmicpc.net/problem/10423
 전기가 부족해
-발전소가 설치된 도시 - 가중치 0으로 set.
-연결 시킬 때 현재 parent가  YNY인지 확인하고 맞으면 pass.
+parent union 할 때 YNY인 쪽으로 union 처리.
+연결 시킬 때 두 정점의 parent가 모두 YNY인지 확인하고 맞으면 pass.
+
 '''
 import sys
 input = sys.stdin.readline
@@ -20,24 +21,20 @@ def unionParent(v1, v2) :
         parent[v1] = v2
 def isInYNY(v) :
     return getParent(v) in YNY
+
 N, M, K = map(int, input().rstrip().split())
 YNY = list(map(int, input().rstrip().split()))
 edges = []
 parent = [v for v in range(N+1)]
-# 발전소 가중치 0
-for v in YNY :
-    edges.append((v,v, 0))
-
 for _ in range(M) :
     a, b, c = map(int, input().rstrip().split())
     edges.append((a, b, c))
 
 edges.sort(key=lambda x : x[2])
+
 totalCost = 0
 for a, b, c in edges :
-    if getParent(a) == getParent(b) :
-        continue
-    if isInYNY(a) and isInYNY(b) :
+    if (getParent(a) == getParent(b)) or (isInYNY(a) and isInYNY(b)) :
         continue
     totalCost += c
     unionParent(a, b)
