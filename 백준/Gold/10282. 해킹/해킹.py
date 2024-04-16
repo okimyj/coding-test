@@ -9,7 +9,6 @@ for _ in range(int(input())) :
     n, d, c = map(int, input().rstrip().split())
     graph = [[] for _ in range(n+1)]
     visited = [sys.maxsize] * (n+1)
-    # visited = defaultdict(int)
     for _ in range(d) :
         a, b, s = map(int, input().rstrip().split())
         graph[b].append((a, s))
@@ -27,6 +26,4 @@ for _ in range(int(input())) :
                 heappush(pq, (nextSec, target))
 
     filtered = list(filter(lambda x : x != sys.maxsize, visited))
-
-
     print(len(filtered), max(filtered))
